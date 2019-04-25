@@ -1,0 +1,11 @@
+extends ../../../server/views/custom-element-layout
+
+block head-extension
+  - var title  = 'Google Optimize experiment selector';
+
+block content
+  .layout
+    .selector#reactapp
+  .spacer
+  script(src="https://apis.google.com/js/api.js")
+

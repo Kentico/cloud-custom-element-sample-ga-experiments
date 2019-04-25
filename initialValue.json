@@ -1,0 +1,10 @@
+{
+  "experiment": {
+    "id": "YI5uxeAkRZ-0E1-7oQ5FXg",
+    "name": "Home page A/B test"
+  },
+  "variant": {
+    "id": "2",
+    "name": "With larger CTA"
+  }
+}

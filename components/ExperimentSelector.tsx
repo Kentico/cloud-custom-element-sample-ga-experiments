@@ -2,7 +2,9 @@ import React from 'react';
 import Select from 'react-select';
 import '../analytics_logo.png';
 
-interface IValue {
+type IValue = [string, string, IStructuredValue];
+
+interface IStructuredValue {
   experiment: {
     id: string;
     name: string;
@@ -63,14 +65,17 @@ class ExperimentSelector extends React.Component<IExperimentSelectorProps, IExpe
 
     const selected: IValue = props.initialValue;
 
+    // Last item in value is the structured value for the UI
+    const structuredValue = selected && selected[selected.length - 1] as IStructuredValue;
+
     this.state = {
-      selectedExperiment: selected && selected.experiment && {
-        value: selected.experiment.id,
-        label: selected.experiment.name,
+      selectedExperiment: structuredValue && structuredValue.experiment && {
+        value: structuredValue.experiment.id,
+        label: structuredValue.experiment.name,
       },
-      selectedVariant: selected && selected.variant && {
-        value: selected.variant.id,
-        label: selected.variant.name,
+      selectedVariant: structuredValue && structuredValue.variant && {
+        value: structuredValue.variant.id,
+        label: structuredValue.variant.name,
       },
       experiments: null,
       experimentOptions: null,
@@ -199,17 +204,21 @@ class ExperimentSelector extends React.Component<IExperimentSelectorProps, IExpe
       return;
     }
 
-    const value: IValue = {
-      experiment: experiment && {
-        id: experiment.value,
-        name: experiment.label,
+    const value: IValue = [
+      experiment.value,
+      variant.value,
+      {
+        experiment: experiment && {
+          id: experiment.value,
+          name: experiment.label,
 
-      },
-      variant: variant && {
-        id: variant.value,
-        name: variant.label,
-      },
-    };
+        },
+        variant: variant && {
+          id: variant.value,
+          name: variant.label,
+        },
+      }
+    ];
 
     this.props.customElementApi.setValue(JSON.stringify(value));
   };

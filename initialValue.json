@@ -1,14 +1,14 @@
 [
-  "YI5uxeAkRZ-0E1-7oQ5FXg",
-  "2",
+  "YI5uxeAkRZ-0E1-7oQ5FXg/2",
   {
     "experiment": {
       "id": "YI5uxeAkRZ-0E1-7oQ5FXg",
+      "key": "190562962-3",
       "name": "Home page A/B test"
     },
     "variant": {
       "id": "2",
-      "name": "With larger CTA"
+      "name": "Try Premium"
     }
   }
 ]

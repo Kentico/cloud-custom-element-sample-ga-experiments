@@ -1,26 +1,49 @@
-# Google Analytics experiment selector for Kentico Cloud
+# Google Analytics Experiment selector for Kentico Cloud
 
-This repository contains source code of Google Analytics experiment selector custom element for Kentico Cloud
+This repository contains source code of Google Analytics Experiment selector custom element for Kentico Cloud
 
 # Use
 
-If you want to use Google Analytics experiment selector in your project in Kentico Cloud, follow these steps:
+If you want to use Google Analytics Experiment selector in your project in Kentico Cloud, follow these steps:
 
 * In Kentico Cloud open Content models tab
-* Open / create a content model to which you want to add Google Optimize experiment selector
+* Open / create a content model to which you want to add Google Optimize Experiment selector
 * Add **Custom element** content element
 * Open configuration of the content element
-* Use following URL as Hosted code URL (HTTPS): https://kentico.github.io/custom-element-samples/GoogleAnalytics/experiment-selector.html
+* Use following URL as Hosted code URL (HTTPS): https://kentico.github.io/custom-element-samples/GoogleAnalyticsExperiments/experiment-selector.html
 * Provide the following JSON parameters for the custom element to connect it to your Google Analytics, replace the macros with the actual values for your setup
 
 ```
 {
-	"clientId": "<YOUR GOOGLE APP CLIENT ID>.apps.googleusercontent.com",
-    "accountId": "<YOUR GOOGLE ANALYTICS ACCOUNT ID>",
-    "webPropertyId": "<YOUR GOOGLE ANALYTICS PROPERTY ID>",
-    "profileId": "<YOUR GOOGLE ANALYTICS PROFILE ID>"
+  "clientId": "<YOUR GOOGLE APP CLIENT ID>.apps.googleusercontent.com",
+  "accountId": "<YOUR GOOGLE ANALYTICS ACCOUNT ID>",
+  "webPropertyId": "<YOUR GOOGLE ANALYTICS PROPERTY ID>",
+  "profileId": "<YOUR GOOGLE ANALYTICS PROFILE ID>"
 }
 ```
+
+## Example output
+
+The element will save a value containing the experiment/variant identifier as well as metadata need for first display of the selector.
+
+```json
+[
+  "YI5uxeAkRZ-0E1-7oQ5FXg/2",
+  {
+    "experiment": {
+      "id": "YI5uxeAkRZ-0E1-7oQ5FXg",
+      "key": "190562962-3",
+      "name": "Home page A/B test"
+    },
+    "variant": {
+      "id": "2",
+      "name": "Try Premium"
+    }
+  }
+]
+```
+
+The experiment/variant identifier is at the beginning of the value so that the content items can be filtered based on the prefix of the value.
 
 # Installation
 
@@ -35,9 +58,9 @@ Prerequisites:
 ```
 git clone https://github.com/Kentico/custom-element-devkit.git
 cd custom-element-devkit
-git clone https://github.com/kenticomartinh/kc-google-analytics.git ./client/custom-elements/kc-google-analytics
+git clone https://github.com/kenticomartinh/kc-google-analytics-experiments.git ./client/custom-elements/kc-google-analytics-experiments
 npm install --save react react-dom react-select
 npm start -- -hw
 ```
 
-Browse: https://localhost:3000/custom-elements/kc-google-analytics/wrap
+Browse: https://localhost:3000/custom-elements/kc-google-analytics-experiments/wrap

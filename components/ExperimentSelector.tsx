@@ -2,11 +2,20 @@ import React from 'react';
 import Select from 'react-select';
 import '../analytics_logo.png';
 
-type IValue = [string, string, IStructuredValue];
+type IValue = [string, IStructuredValue];
+
+function getExperimentKey(e: any, profileId: string): string {
+  const snippet: string = e.snippet;
+  const keyRegExp = new RegExp(`${profileId}-[0-9]+`);
+  const experimentKey = (keyRegExp.exec(snippet) || [])[0];
+
+  return experimentKey || profileId;
+}
 
 interface IStructuredValue {
   experiment: {
     id: string;
+    key: string;
     name: string;
   } | null;
   variant: {
@@ -22,11 +31,18 @@ interface IVariation {
 interface IExperiment {
   name: string;
   id: string;
+  key: string;
   variations: IVariation[];
 }
 
-interface IOption {
+interface IVariantOption {
   value: string;
+  label: string;
+}
+
+interface IExperimentOption {
+  value: string;
+  key: string;
   label: string;
 }
 
@@ -41,11 +57,11 @@ interface IExperimentSelectorProps {
 }
 
 interface IExperimentSelectorState {
-  selectedExperiment: IOption | null;
-  selectedVariant: IOption | null;
+  selectedExperiment: IExperimentOption | null;
+  selectedVariant: IVariantOption | null;
   experiments: IExperiment[] | null;
-  experimentOptions: IOption[] | null;
-  variantOptions: IOption[] | null;
+  experimentOptions: IExperimentOption[] | null;
+  variantOptions: IVariantOption[] | null;
   apiKey: string | null;
   disabled: boolean;
   signedIn: boolean;
@@ -71,6 +87,7 @@ class ExperimentSelector extends React.Component<IExperimentSelectorProps, IExpe
     this.state = {
       selectedExperiment: structuredValue && structuredValue.experiment && {
         value: structuredValue.experiment.id,
+        key: structuredValue.experiment.key,
         label: structuredValue.experiment.name,
       },
       selectedVariant: structuredValue && structuredValue.variant && {
@@ -148,6 +165,8 @@ class ExperimentSelector extends React.Component<IExperimentSelectorProps, IExpe
   };
 
   getExperimentsFromResponse = (response: any): IExperiment[] | null => {
+    const { profileId } = this.props;
+
     if (response.error && response.error.code === 401) {
       this.ensureSignIn();
       return null;
@@ -158,6 +177,7 @@ class ExperimentSelector extends React.Component<IExperimentSelectorProps, IExpe
       .map(e => ({
         name: e.name,
         id: e.id,
+        key: getExperimentKey(e, profileId),
         variations: e.variations.map(v => ({
           name: v.name,
         })),
@@ -184,6 +204,7 @@ class ExperimentSelector extends React.Component<IExperimentSelectorProps, IExpe
         experimentOptions: experiments.map(e => ({
           label: e.name,
           value: e.id,
+          key: e.key,
         })),
       }),
       this.loadVariantsForSelected);
@@ -198,18 +219,18 @@ class ExperimentSelector extends React.Component<IExperimentSelectorProps, IExpe
     this.props.customElementApi.setHeight(height);
   };
 
-  updateValue = (experiment: IOption | null, variant: IOption | null) => {
+  updateValue = (experiment: IExperimentOption | null, variant: IVariantOption | null) => {
     if (!experiment || !variant) {
       this.props.customElementApi.setValue(null);
       return;
     }
 
     const value: IValue = [
-      experiment.value,
-      variant.value,
+      `${experiment.value}/${variant.value}`,
       {
         experiment: experiment && {
           id: experiment.value,
+          key: experiment.key,
           name: experiment.label,
 
         },
@@ -223,7 +244,7 @@ class ExperimentSelector extends React.Component<IExperimentSelectorProps, IExpe
     this.props.customElementApi.setValue(JSON.stringify(value));
   };
 
-  loadVariants = (experiment: IOption | null) => {
+  loadVariants = (experiment: IExperimentOption | null) => {
     const experimentObj = experiment && this.state.experiments && this.state.experiments.find(e => e.id === experiment.value) || null;
     const variantOptions = experimentObj && experimentObj.variations.map((v, index) => ({
       value: index + '',
@@ -239,7 +260,7 @@ class ExperimentSelector extends React.Component<IExperimentSelectorProps, IExpe
     this.loadVariants(this.state.selectedExperiment);
   };
 
-  updateSelectedExperiment = (experiment: IOption | null) => {
+  updateSelectedExperiment = (experiment: IExperimentOption | null) => {
     const sameAsSelected = this.state.selectedExperiment && experiment && (this.state.selectedExperiment.value === experiment.value);
 
     this.setState(prevState => ({
@@ -250,14 +271,14 @@ class ExperimentSelector extends React.Component<IExperimentSelectorProps, IExpe
     this.deferredUpdateSize();
   };
 
-  onExperimentChange = (experiment: IOption | null) => {
+  onExperimentChange = (experiment: IExperimentOption | null) => {
     if (!this.state.disabled) {
       this.loadVariants(experiment);
       this.updateSelectedExperiment(experiment);
     }
   };
 
-  onVariantChange = (variant: IOption | null) => {
+  onVariantChange = (variant: IVariantOption | null) => {
     if (!this.state.disabled) {
       this.setState(() => ({
         selectedVariant: variant,

@@ -59,7 +59,7 @@ Prerequisites:
 git clone https://github.com/Kentico/custom-element-devkit.git
 cd custom-element-devkit
 git clone https://github.com/kenticomartinh/kc-google-analytics-experiments.git ./client/custom-elements/kc-google-analytics-experiments
-npm install --save react react-dom react-select
+npm install --save react@^16.8.6 react-dom@^16.8.6 react-select@^2.4.3
 npm start -- -hw
 ```
 

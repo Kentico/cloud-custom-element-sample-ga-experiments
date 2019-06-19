@@ -1,6 +1,8 @@
 # Google Analytics Experiment selector for Kentico Cloud
 
-This repository contains source code of Google Analytics Experiment selector custom element for Kentico Cloud
+[![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kentico-cloud)
+
+This repository contains source code of Bynder image selector custom element for Kentico Cloud
 
 # Use
 
@@ -58,9 +60,16 @@ Prerequisites:
 ```
 git clone https://github.com/Kentico/custom-element-devkit.git
 cd custom-element-devkit
-git clone https://github.com/kenticomartinh/kc-google-analytics-experiments.git ./client/custom-elements/kc-google-analytics-experiments
+git clone https://github.com/Kentico/cloud-custom-element-sample-ga-experiments.git ./client/custom-elements/cloud-custom-element-sample-ga-experiments
 npm install --save react@^16.8.6 react-dom@^16.8.6 react-select@^2.4.3
 npm start -- -hw
 ```
+Browse: https://localhost:3000/custom-elements/cloud-custom-element-sample-ga-experiments/wrap
 
-Browse: https://localhost:3000/custom-elements/kc-google-analytics-experiments/wrap
+# Live site implementation sample
+
+If you want to see live site example of AB Testing used on the live site, browse to a [deployed sample site](https://kentico-cloud-sample-app-react-ga-experiments.surge.sh).
+
+See source code of the sample site implementation [here](https://github.com/Kentico/cloud-sample-app-react/commit/67d48c6f3953f95a50eb5d28cf4c27d8432635f4).
+
+![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/cloud-custom-element-sample-ga-experiments?pixel)

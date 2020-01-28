@@ -1,8 +1,10 @@
-# Google Analytics Experiment selector for Kentico Cloud
+# ARCHIVED - Google Analytics Experiment selector for Kentico Cloud
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
-[![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kentico-cloud)
+> <h2 align="center">:warning:<br><br>Archive Notice</h2>
+> The Google Analytics Experiment service was shut down by Google, and this repository examples will not be maintained. This  repository refers to <strong>Kentico Kontent</strong> by the previous product name: <strong>Kentico Cloud</strong>.
 
-This repository contains source code of Bynder image selector custom element for Kentico Cloud
+This repository contains source code of the Google Analytics Experiment selector custom element for Kentico Cloud
 
 # Use
 
